@@ -2,31 +2,26 @@
 
 > 기준 문서: [자격증_학습앱_개발계획.md](./자격증_학습앱_개발계획.md)
 
-## 0단계 — Supabase 준비 (미착수, 최우선 블로커)
-- supabase.com 프로젝트 생성 (무료 티어)
-- SQL 에디터에서 `categories` / `notes` / `concepts` / `quizzes` 4개 테이블 + RLS 정책 생성
-- Auth → **Anonymous Sign-Ins 활성화** (Authentication → Settings에서 토글) — 로그인 화면 없이 `js/auth.js`의 `ensureSession()`이 자동으로 익명 로그인 처리함
-- 프로젝트 URL + anon key 확보 → `js/supabase.js`의 `YOUR_SUPABASE_URL` / `YOUR_SUPABASE_ANON_KEY` 교체
-- **이게 끝나야 앱 진입부터 실제 데이터 CRUD까지 전부 테스트 가능** (지금은 코드만 완성된 상태)
-- 참고: 익명 로그인은 브라우저별로 별도 계정이 생성되므로 **이 PC 하나에서만** 데이터가 유지됨(사용자 확인 완료, 의도된 동작).
+## 0단계 — Supabase 준비 (완료)
+- Supabase 프로젝트 생성, URL/anon key `js/supabase.js`에 반영 완료
+- Anonymous Sign-Ins 활성화 완료
+- SQL 테이블(`categories`/`notes`/`concepts`/`quizzes`) + RLS 정책 생성 완료
+- 참고: 익명 로그인은 **브라우저 origin별로 별도 계정**이 생성됨. `localhost:8000`에서 테스트한 데이터와 `klaod-tech.github.io` 배포본의 데이터는 서로 다른 익명 계정에 저장되어 분리되어 있음(둘 다 Supabase에 존재, 유실 아님). 앞으로는 배포된 GitHub Pages 주소를 실제 사용처로 사용.
 
-## 실제 동작 검증 (0단계 이후)
-- 앱 진입 시 익명 로그인 자동 처리 확인
-- 카테고리 추가 → 필기/핵심개념/문제풀이 각각 생성·자동저장·목록 반영
-- 문제풀이: 단어문제 자동생성, 기출문제 붙여넣기 파싱 → 저장 → 풀기 → 오답노트 → 회차기록 정상 동작 확인
-- 사이드바 접기/펼치기 UI 확인
+## 실제 동작 검증 (완료)
+- GitHub Pages 배포본(`https://klaod-tech.github.io/CERT-STUDY-APP/`)에서 카테고리 추가, 필기 작성/자동저장, 목록 반영까지 실제 확인됨
+- 남은 검증: 핵심개념 편집, 문제풀이(단어문제/기출문제 파싱·풀기·오답노트·회차기록) 실제 화면에서 확인
+
+## 8단계 — 마무리 & 배포 (완료)
+- git 저장소 초기화 + 초기 커밋 완료
+- `.gitignore` 작성 완료 (`.env` 등 제외)
+- GitHub 저장소 생성(`klaod-tech/CERT-STUDY-APP`, Public) → push 완료
+- GitHub Pages 활성화 완료 — 최초 배포 시 "Deployment failed" 및 Queued 멈춤 발생 → Settings → Actions → Workflow permissions를 "Read and write permissions"로 변경 후 재배포하여 해결
+- 남은 것: `README.md` 작성 (선택, 급하지 않음 — 본인만 쓰는 용도라 우선순위 낮음)
 
 ## 7단계 — (선택) PDF 일괄 변환 도구
 - `tools/pdf-to-json.js` (전략 B): PDF 기출을 로컬에서 일괄 텍스트 추출 → 형식 정규화 → JSON → Supabase 업로드
 - 현재 `tools/` 폴더 비어 있음. 필요해질 때(PDF 기출 다량 확보 시) 작업.
-
-## 8단계 — 마무리 & 배포 (미착수)
-- git 저장소 초기화 (`git init`) — 아직 저장소 아님
-- `.gitignore` 작성 (데이터 파일 없음 — Supabase에만 존재 — 이지만 OS/에디터 파일 등 기본 제외 필요)
-- `README.md` 작성 (Supabase 설정 방법 안내, 본인 키 사용 안내)
-- GitHub 저장소 생성 → push → Settings → Pages 활성화
-- 로컬 확인용 실행 방법 안내 (`Live Server` 또는 `python -m http.server`)
-- ⚠️ `anon key`는 RLS로 보호되어 공개돼도 안전하지만, **`service_role key`는 절대 커밋 금지** — README에도 명시할 것
 
 ## 기타 다듬을 만한 부분 (선택, 급하지 않음)
 - 카테고리 이름 수정/삭제 (개발계획 4-1의 "선택" 항목, 현재 추가만 가능)

@@ -4,7 +4,7 @@
 
 ## 1단계 — 기본 골격 + 인증 (로그인 화면 없는 방식으로 변경)
 - `index.html`: 3단 레이아웃(사이드바/기능패널/메인보드)
-- `js/supabase.js`: Supabase 클라이언트 초기화 (URL/anon key는 아직 플레이스홀더 — 0단계 진행 시 채워야 함)
+- `js/supabase.js`: Supabase 클라이언트 초기화 (실제 프로젝트 URL/anon key 반영 완료)
 - `js/auth.js`: `ensureSession()` — 저장된 세션이 있으면 재사용, 없으면 **익명 로그인(anonymous sign-in)** 자동 실행. 로그인 화면 없이 앱 진입 시 자동으로 처리됨.
   - **주의**: 익명 로그인은 브라우저(로컬 저장소) 단위로 계정이 생성되므로 **이 PC 하나에서만** 데이터가 유지됨. 다른 기기/브라우저에서 열면 새 빈 계정으로 시작함 (사용자 확인 후 "이 PC만 사용"으로 결정됨).
 - `js/store.js`: categories/notes/concepts/quizzes CRUD 전부 구현 (2~6단계에서 쓸 것까지 미리 작성돼 있었음)
@@ -38,8 +38,20 @@
 - **`note.js` XSS 여지**: 제목/본문을 이스케이프 없이 `innerHTML`에 삽입하던 부분 → `js/utils.js`의 `escapeHtml`로 수정. `concept.js`/`quiz.js`도 처음부터 이스케이프 적용해서 작성.
 - **로그인 UI 제거**: 사용자가 혼자 이 PC에서만 쓸 것이라고 확인 → 로그인/회원가입/로그아웃 화면과 버튼을 전부 제거하고, 앱 시작 시 자동으로 익명 로그인되도록 단순화 (`auth-screen` 관련 HTML/CSS 삭제, `auth.js`를 `ensureSession()` 하나로 축소).
 
+## 스타일 다듬기
+- 전체 배경 흰색 → 연한 파란색(`#eaf2fb`)
+- 기능 패널 너비 220px → 260px
+- 필기/핵심개념/문제풀이 제목 입력란: 높이 확대, `border-radius` 적용, 본문과 너비 통일
+- 폰트를 Pretendard(웹폰트 CDN)로 변경 (클로드 브랜드 폰트는 라이선스 문제로 사용 불가 — 협의 후 대체)
+
+## 0단계 완료 + 배포
+- Supabase 프로젝트 생성, 테이블/RLS, Anonymous Sign-Ins 활성화, URL/anon key 반영까지 전부 완료
+- git 저장소 초기화 + 초기 커밋, GitHub(`klaod-tech/CERT-STUDY-APP`, Public) push, GitHub Pages 배포 완료
+  - 배포 첫 시도 "Deployment failed"/큐 멈춤 발생 → Settings → Actions → Workflow permissions를 "Read and write permissions"로 변경 후 재배포하여 해결
+- 배포 주소: `https://klaod-tech.github.io/CERT-STUDY-APP/`
+- **실사용 확인**: 배포된 사이트에서 카테고리 추가, 필기 작성/자동저장까지 실제로 동작 확인됨
+
 ## 검증
 - 전체 JS 파일 `node --check` 구문 검사 통과.
 - `parser.js`는 실제 샘플 텍스트(정상 2문제 + 보기 부족 오류 1건)로 단위 테스트 후 통과 확인.
-- 로컬 정적 서버로 `index.html` 및 모든 `js/*.js` 파일이 정상적으로 서빙되는지 확인.
-- ⚠️ Supabase 프로젝트가 아직 없어서 **앱 진입(익명 로그인)부터 이어지는 실제 동작(E2E)은 테스트 못 함** — 코드 정합성만 확인된 상태.
+- GitHub Pages 배포본에서 실제 브라우저로 E2E 동작 확인(필기 기준). 핵심개념/문제풀이는 아직 실사용 미확인.
