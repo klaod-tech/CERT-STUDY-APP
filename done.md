@@ -67,4 +67,5 @@
   - Workflow permissions는 이미 "Read and write permissions"로 정상 설정되어 있어 권한 문제는 아닌 것으로 확인.
   - Settings → Pages → Source를 "None"으로 껐다가 "Deploy from a branch"로 재활성화 시도 → 효과 없음(오히려 매번 실패로 악화).
   - 실제 Actions 로그 확인 결과: build 단계는 항상 성공, `actions/deploy-pages@v5` 단계에서 `Error: Deployment failed, try again later.`로 실패 — GitHub 내장 "Deploy from a branch" 레거시 파이프라인 자체의 배포 단계 문제로 판단.
-  - **해결**: `.github/workflows/deploy.yml` 추가(`actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages@v4`, `concurrency` 그룹으로 중복 배포 방지) 후 Settings → Pages → Source를 **"GitHub Actions"**로 변경 → 정상 배포 확인 완료.
+  - `.github/workflows/deploy.yml` 추가(`actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages@v4`, `concurrency` 그룹으로 중복 배포 방지) 후 Settings → Pages → Source를 **"GitHub Actions"**로 변경 → 이후 2회 정상 배포 확인.
+  - 2026-07-06: 같은 커스텀 워크플로에서도 `actions/deploy-pages@v4` 단계가 다시 한번 실패(`7d1c76f`) → **완전히 해결된 게 아니라 여전히 간헐적**. Actions 탭의 "Re-run all jobs"도 무한 로딩으로 멈춤 → 재시도는 새 커밋 push로 우회. GitHub Pages 백엔드 쪽 산발적 이슈로 추정, 근본 해결 미확인.
