@@ -17,6 +17,7 @@
 - `.gitignore` 작성 완료 (`.env` 등 제외)
 - GitHub 저장소 생성(`klaod-tech/CERT-STUDY-APP`, Public) → push 완료
 - GitHub Pages 활성화 완료 — 최초 배포 시 "Deployment failed" 및 Queued 멈춤 발생 → Settings → Actions → Workflow permissions를 "Read and write permissions"로 변경 후 재배포하여 해결
+- 2026-07-06: "Deploy from a branch" 레거시 파이프라인에서 배포 실패가 재발(결국 매번 실패)하여, `.github/workflows/deploy.yml` 커스텀 워크플로 추가 + Settings → Pages → Source를 "GitHub Actions"로 전환. 이후 정상 배포 확인 완료.
 - 남은 것: `README.md` 작성 (선택, 급하지 않음 — 본인만 쓰는 용도라 우선순위 낮음)
 
 ## 7단계 — (선택) PDF 일괄 변환 도구
@@ -24,7 +25,7 @@
 - 현재 `tools/` 폴더 비어 있음. 필요해질 때(PDF 기출 다량 확보 시) 작업.
 
 ## 기타 다듬을 만한 부분 (선택, 급하지 않음)
-- 카테고리 이름 수정/삭제 (개발계획 4-1의 "선택" 항목, 현재 추가만 가능)
+- 2026-07-06: 카테고리 이름 수정, 필기/핵심개념/문제풀이 제목 수정 완료(✎ 버튼). 삭제 기능은 아직 없음(개발계획 4-1 "선택" 항목 중 삭제만 남음).
 - 문제풀이 통계에 회차별 정답률 추이 그래프(현재는 표 형태만)
 
 ## 역할 분담 (개발계획 8번 항목, 계획대로 유지)

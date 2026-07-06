@@ -44,6 +44,13 @@
 - 필기/핵심개념/문제풀이 제목 입력란: 높이 확대, `border-radius` 적용, 본문과 너비 통일
 - 폰트를 Pretendard(웹폰트 CDN)로 변경 (클로드 브랜드 폰트는 라이선스 문제로 사용 불가 — 협의 후 대체)
 
+## 카테고리/제목 수정 기능 + 접힌 사이드바 폭 확대
+- `js/store.js`: `updateCategory`, `updateItemTitle`(notes/concepts/quizzes 공용) 함수 추가
+- `js/sidebar.js`: 카테고리 항목 우측 끝에 ✎ 수정 버튼 추가, 클릭 시 이름 변경(prompt) 후 저장
+- `js/panel.js`: 필기/문제풀이/핵심개념 목록 항목에도 동일하게 ✎ 수정 버튼 추가
+- `css/style.css`: 리스트 항목 flex 레이아웃 + 말줄임표 처리, 접힌 사이드바 폭 56px → 112px(2배)로 확대(카테고리 이름 잘림 개선)
+- 삭제 기능은 이번 범위에 포함하지 않음(요청 시 추가)
+
 ## 0단계 완료 + 배포
 - Supabase 프로젝트 생성, 테이블/RLS, Anonymous Sign-Ins 활성화, URL/anon key 반영까지 전부 완료
 - git 저장소 초기화 + 초기 커밋, GitHub(`klaod-tech/CERT-STUDY-APP`, Public) push, GitHub Pages 배포 완료
@@ -56,6 +63,8 @@
 - `parser.js`는 실제 샘플 텍스트(정상 2문제 + 보기 부족 오류 1건)로 단위 테스트 후 통과 확인.
 - GitHub Pages 배포본에서 실제 브라우저로 E2E 동작 확인(필기 기준). 핵심개념/문제풀이는 아직 실사용 미확인.
 - 2026-07-06: 배포 주소 응답 재확인(200 OK, 최신 커밋 반영됨).
-- 2026-07-06: 커밋 `0d104c0` 배포에서 "Deployment failed" 재발. Actions API로 확인 시 build 단계는 성공, deploy 단계만 실패.
-  - Workflow permissions는 이미 "Read and write permissions"로 정상 설정되어 있어 권한 문제는 아닌 것으로 확인됨.
-  - 어젯밤 `9c2cbf8` 커밋의 배포 작업이 9시간 이상 "queued" 상태로 멈춰 있는 것을 발견(그 사이 다른 배포는 성공/실패가 섞여 발생) — 간헐적 실패 패턴이라 원인 특정에는 Actions 탭의 실제 에러 로그 확인이 필요. 미해결.
+- 2026-07-06: 커밋 `0d104c0` 배포에서 "Deployment failed" 재발, 이후 점점 더 자주(결국 매번) 재현됨. 원인 조사 및 해결 과정:
+  - Workflow permissions는 이미 "Read and write permissions"로 정상 설정되어 있어 권한 문제는 아닌 것으로 확인.
+  - Settings → Pages → Source를 "None"으로 껐다가 "Deploy from a branch"로 재활성화 시도 → 효과 없음(오히려 매번 실패로 악화).
+  - 실제 Actions 로그 확인 결과: build 단계는 항상 성공, `actions/deploy-pages@v5` 단계에서 `Error: Deployment failed, try again later.`로 실패 — GitHub 내장 "Deploy from a branch" 레거시 파이프라인 자체의 배포 단계 문제로 판단.
+  - **해결**: `.github/workflows/deploy.yml` 추가(`actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages@v4`, `concurrency` 그룹으로 중복 배포 방지) 후 Settings → Pages → Source를 **"GitHub Actions"**로 변경 → 정상 배포 확인 완료.
