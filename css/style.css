@@ -17,7 +17,7 @@ body {
 }
 
 .app-layout.collapsed {
-  grid-template-columns: 56px 0 1fr;
+  grid-template-columns: 112px 0 1fr;
 }
 
 .sidebar {
@@ -42,12 +42,22 @@ body {
 }
 
 .category-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
   padding: 10px 16px;
   cursor: pointer;
 }
 
 .category-list li.selected {
   background: #eef;
+}
+
+.category-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .add-category-btn {
@@ -95,9 +105,33 @@ body {
 }
 
 .item-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
   padding: 8px 12px;
   cursor: pointer;
   border-bottom: 1px solid #f0f0f0;
+}
+
+.item-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-btn {
+  flex: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #999;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+
+.edit-btn:hover {
+  color: #333;
 }
 
 .board {

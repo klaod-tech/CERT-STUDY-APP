@@ -18,6 +18,19 @@ export async function addCategory(name) {
   return data;
 }
 
+export async function updateCategory(id, name) {
+  const { data, error } = await supabase.from("categories").update({ name }).eq("id", id).select().single();
+  if (error) throw error;
+  return data;
+}
+
+// ---------- item title (notes/concepts/quizzes 공용) ----------
+export async function updateItemTitle(table, id, title) {
+  const { data, error } = await supabase.from(table).update({ title }).eq("id", id).select().single();
+  if (error) throw error;
+  return data;
+}
+
 // ---------- notes ----------
 export async function getNotes(categoryId) {
   const { data, error } = await supabase

@@ -1,4 +1,4 @@
-import { getNotes, getConcepts, getQuizzes } from "./store.js";
+import { getNotes, getConcepts, getQuizzes, updateItemTitle } from "./store.js";
 
 const fetchers = {
   notes: getNotes,
@@ -45,7 +45,26 @@ export async function renderPanel() {
   list.innerHTML = "";
   items.forEach((item) => {
     const li = document.createElement("li");
-    li.textContent = item.title || "(제목 없음)";
+
+    const titleSpan = document.createElement("span");
+    titleSpan.className = "item-title";
+    titleSpan.textContent = item.title || "(제목 없음)";
+    li.appendChild(titleSpan);
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "edit-btn";
+    editBtn.textContent = "✎";
+    editBtn.title = "제목 수정";
+    editBtn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      const title = prompt("제목 수정", item.title || "");
+      if (!title || title === item.title) return;
+      await updateItemTitle(currentTab, item.id, title);
+      await renderPanel();
+    });
+    li.appendChild(editBtn);
+
     li.addEventListener("click", () => itemSelectHandler && itemSelectHandler(currentTab, item));
     list.appendChild(li);
   });
