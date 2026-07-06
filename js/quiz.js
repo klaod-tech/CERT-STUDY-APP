@@ -11,7 +11,7 @@ export function renderQuizCreator(container, categoryId, onSaved) {
       <button type="button" class="toggle-btn active" data-mode="word">단어 문제</button>
       <button type="button" class="toggle-btn" data-mode="exam">기출 문제</button>
     </div>
-    <input type="text" id="quiz-title" class="editor-title" placeholder="제목" />
+    <input type="text" id="quiz-title" class="editor-title" placeholder="제목" spellcheck="false" />
     <div id="quiz-creator-body"></div>
   `;
 
@@ -60,7 +60,7 @@ export function renderQuizCreator(container, categoryId, onSaved) {
       });
     } else {
       body.innerHTML = `
-        <textarea id="exam-paste" placeholder="기출 문제 붙여넣기 (문제/보기4개/정답 형식)" style="width:100%; height:200px;"></textarea>
+        <textarea id="exam-paste" placeholder="기출 문제 붙여넣기 (문제/보기4개/정답 형식)" spellcheck="false" style="width:100%; height:200px;"></textarea>
         <button type="button" id="parse-exam-btn">파싱</button>
         <div id="exam-preview"></div>
       `;

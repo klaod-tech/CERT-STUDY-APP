@@ -15,7 +15,7 @@ export function renderConceptEditor(container, concept, categoryId, onSaved) {
 
   function render() {
     container.innerHTML = `
-      <input type="text" id="concept-title" class="editor-title" placeholder="제목" value="${escapeHtml(state.title)}" />
+      <input type="text" id="concept-title" class="editor-title" placeholder="제목" spellcheck="false" value="${escapeHtml(state.title)}" />
       <div id="concept-rows"></div>
       <button type="button" id="add-row-btn">+ 행 추가</button>
     `;
@@ -25,8 +25,8 @@ export function renderConceptEditor(container, concept, categoryId, onSaved) {
       const row = document.createElement("div");
       row.className = "concept-row";
       row.innerHTML = `
-        <input type="text" class="term-input" placeholder="단어" value="${escapeHtml(item.term)}" data-i="${i}" />
-        <input type="text" class="meaning-input" placeholder="뜻" value="${escapeHtml(item.meaning)}" data-i="${i}" />
+        <input type="text" class="term-input" placeholder="단어" spellcheck="false" value="${escapeHtml(item.term)}" data-i="${i}" />
+        <input type="text" class="meaning-input" placeholder="뜻" spellcheck="false" value="${escapeHtml(item.meaning)}" data-i="${i}" />
         <button type="button" class="remove-row-btn" data-i="${i}">×</button>
       `;
       rows.appendChild(row);

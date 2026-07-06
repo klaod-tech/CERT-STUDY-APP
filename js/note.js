@@ -5,8 +5,8 @@ let debounceTimer = null;
 
 export function renderNoteEditor(container, note, categoryId, onSaved) {
   container.innerHTML = `
-    <input type="text" id="note-title" class="editor-title" placeholder="제목" value="${escapeHtml(note?.title ?? "")}" />
-    <textarea id="note-content" class="editor-content">${escapeHtml(note?.content ?? "")}</textarea>
+    <input type="text" id="note-title" class="editor-title" placeholder="제목" spellcheck="false" value="${escapeHtml(note?.title ?? "")}" />
+    <textarea id="note-content" class="editor-content" spellcheck="false">${escapeHtml(note?.content ?? "")}</textarea>
   `;
 
   const state = { id: note?.id, category_id: categoryId };
